@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "GMV5.h"
+#include "GMv5.h"
 
 void clear_stdin()
 {
