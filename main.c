@@ -4,6 +4,14 @@
 #include <stdbool.h>
 #include "GMV5.h"
 
+void clear_stdin()
+{
+    int c;
+    do
+    {
+        c = getchar();
+    } while (c != '\n' && c != EOF);
+}
 
 //Fonction qui permet la lecture d'un message.
 
@@ -13,7 +21,6 @@ void read_msg(char **ppMsg)
 
     char sUserInput[255];
 
-    fflush(stdin);
     fgets(sUserInput, 255, stdin);
 
     *ppMsg = malloc((strlen(sUserInput) + 1) * sizeof(char));
@@ -30,7 +37,6 @@ void action(int *dAction, int dNPos)
 
     do
     {
-        fflush(stdin);
         fgets(sAction, 20, stdin);
 
         if (strlen(sAction) > 2)
@@ -53,6 +59,7 @@ void ask_msgh_and_check_if_exist(int dMsgHCount, int *n)
 {
     do
     {
+        askagain:
         printf("Message handler number?\n");
 
         // Test si l'entrée est bien un integer.
@@ -60,9 +67,11 @@ void ask_msgh_and_check_if_exist(int dMsgHCount, int *n)
         if(scanf("%d", n) != 1)
         {
             printf("Wrong input.Try again.\n");
-            fflush(stdin); // Evite une boucle infinie si l'entrée est différente d'un integer.
-            continue;
+            clear_stdin();
+            goto askagain;
         }
+
+        clear_stdin();
 
         // Test si le nombre entré correspond a un gestionnaire de message existant déjà.
 
